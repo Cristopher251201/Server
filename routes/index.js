@@ -15,7 +15,8 @@ router.get('/prueba',(req,res)=>{
   });
 })
 
-router.post('/login',UserController.login)
+router.post('/login',UserController.login);
+router.post('/agregarEmpleado',UserController.agregarEmpleado);
 
 
 module.exports = router;
