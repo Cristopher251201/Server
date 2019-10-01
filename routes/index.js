@@ -17,6 +17,7 @@ router.get('/prueba',(req,res)=>{
 
 router.post('/login',UserController.login);
 router.post('/agregarEmpleado',UserController.agregarEmpleado);
+router.delete('/eliminarEmpleado/:id',UserController.eliminarEmpleado);
 
 
 module.exports = router;

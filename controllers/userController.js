@@ -36,8 +36,17 @@ function agregarEmpleado(req,res) {
   });
     
 }
-
+function eliminarEmpleado(req,res) {
+    var id= req.params.id;
+    var sql = "DELETE FROM empleado WHERE idEmpleado = ?";
+  db.query(sql, id,function (err, result) {
+    if (err) throw err;
+    console.log("ok");
+  });
+}
 module.exports={
     login,
-    agregarEmpleado
+    agregarEmpleado,
+    eliminarEmpleado
 }
+
