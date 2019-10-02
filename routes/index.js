@@ -19,5 +19,7 @@ router.post('/login',UserController.login);
 router.post('/agregarEmpleado',UserController.agregarEmpleado);
 router.delete('/eliminarEmpleado/:id',UserController.eliminarEmpleado);
 router.post('/crearSolicitud/:id',UserController.crearSolicitud);
+router.get('/solicitudes',UserController.getSolicitudes);
+router.delete('/eliminarSolicitud/:id',UserController.eliminarSolicitud);
 
 module.exports = router;

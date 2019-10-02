@@ -42,7 +42,16 @@ function eliminarEmpleado(req,res) {
     var sql = "DELETE FROM empleado WHERE idEmpleado = ?";
   db.query(sql, id,function (err, result) {
     if (err) throw err;
-    console.log("ok");
+    res.send(result);
+  });
+}
+
+function eliminarSolicitud(req,res) {
+    var id= req.params.id;
+    var sql = "DELETE FROM solicitud WHERE idSolicitud = ?";
+  db.query(sql, id,function (err, result) {
+    if (err) throw err;
+    res.send(result)
   });
 }
 
@@ -64,10 +73,21 @@ function restar(diasSolicitados){
      //rrs res.status(200).send(result)
      })
 }
+
+function getSolicitudes(req,res){
+    var sql= 'SELECT solicitud.idSolicitud, empleado.nombre, empleado.apellido, solicitud.fecha,solicitud.diasSolicitados FROM empleado INNER JOIN solicitud ON empleado.idEmpleado = solicitud.idEmpleado';
+    db.query(sql,(err,result)=>{
+        if(err) throw err;
+        res.json(result)
+     //rrs res.status(200).send(result)
+     })
+}
 module.exports={ 
     login,
     agregarEmpleado,
     eliminarEmpleado,
-    crearSolicitud
+    crearSolicitud,
+    getSolicitudes,
+    eliminarSolicitud
 }
 
