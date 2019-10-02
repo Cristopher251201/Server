@@ -8,7 +8,7 @@ function login(req,res){
 		db.query('SELECT * FROM usuario', function(error, results, fields) {
             results.forEach(element => {
                 if (username==element.username && password==element.password) {
-                   res.redirect('/prueba');
+                   res.send('ok');
                 } else {
                     console.log('la contraseña y/o usuario incorrectos')
                 }
@@ -24,12 +24,13 @@ function login(req,res){
 function agregarEmpleado(req,res) {
    //var username= req.body.username;
    //var password= req.body.password;
-   var nomEm= req.body.nomEm;
-   var apEm= req.body.apEm;
+   var nombre= req.body.nombre;
+   var apellido= req.body.apellido;
    var dpi= req.body.dpi;
    var email= req.body.email;
+   var diasDisponibles=req.body.diasDisponibles;
 
-   const employee = {nombre: nomEm, apellido: apEm, dpi: dpi, email: email };
+   const employee = {nombre: nombre, apellido: apellido, dpi: dpi, email: email,diasDisponibles:diasDisponibles };
    db.query('INSERT INTO empleado SET ?', employee, (err, result) => {
     if(err) throw err;
     res.status(200).send(result)
@@ -44,9 +45,29 @@ function eliminarEmpleado(req,res) {
     console.log("ok");
   });
 }
-module.exports={
+
+function crearSolicitud(req,res){
+    var idEmpleado=req.params.id;
+    var diasSolicitados=req.body.dias;
+    var dat= new Date();
+    const solicitud = {idEmpleado:idEmpleado,fecha: dat,diasSolicitados:diasSolicitados };
+    db.query('INSERT INTO solicitud SET ?', solicitud, (err, result) => {
+        if(err) throw err;
+        res.status(200).send(result)
+        restar(diasSolicitados)
+      });
+}
+
+function restar(diasSolicitados){
+    db.query('UPDATE empleado INNER JOIN solicitud ON solicitud.idEmpleado=empleado.idEmpleado SET empleado.diasDisponibles = empleado.diasDisponibles - ?',[diasSolicitados],(err,result)=>{
+        if(err) throw err;
+     //rrs res.status(200).send(result)
+     })
+}
+module.exports={ 
     login,
     agregarEmpleado,
-    eliminarEmpleado
+    eliminarEmpleado,
+    crearSolicitud
 }
 

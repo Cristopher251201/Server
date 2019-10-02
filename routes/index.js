@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/prueba',(req,res)=>{
-  database.query("Select * from empleado", function (err, result) {
+  database.query("Select * from empleado order by nombre", function (err, result) {
     if (err) throw err;
     res.json(result)
   });
@@ -18,6 +18,6 @@ router.get('/prueba',(req,res)=>{
 router.post('/login',UserController.login);
 router.post('/agregarEmpleado',UserController.agregarEmpleado);
 router.delete('/eliminarEmpleado/:id',UserController.eliminarEmpleado);
-
+router.post('/crearSolicitud/:id',UserController.crearSolicitud);
 
 module.exports = router;
